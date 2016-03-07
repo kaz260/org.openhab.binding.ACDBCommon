@@ -154,6 +154,14 @@ public abstract class ACDBBinding extends AbstractActiveBinding<ACDBBindingProvi
 
 		for (ACDBBindingProvider provider : this.providers) {
 			String commandValue = command.toString();
+			if (commandValue.indexOf("&") == -1) {
+				commandValue = "time=" + commandValue + "&" + "value=" + commandValue;
+			}
+			logger.debug("### commandValue:{}", commandValue);
+			logger.debug("### itemName:{}", itemName);
+			logger.debug("### insertSql:{}", provider.getInsertSql(itemName));
+			logger.debug("### updateSql:{}", provider.getUpdateSql(itemName));
+
 			if(provider.getInsertSql(itemName) != null) {
 				insertDB(itemName, provider, commandValue);
 				continue;

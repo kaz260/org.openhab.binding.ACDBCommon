@@ -38,10 +38,12 @@ public abstract class ACDBGenericBindingProvider extends AbstractGenericBindingP
 	private static final Pattern BASE_CONFIG_PATTERN = Pattern
 		.compile("(<|>>|>)\\[(.*?)\\](\\s|,|$)");
 
-	@Override
+	private static final Pattern BASE_CONFIG_PATTERN_W_COMMAND = Pattern
+		.compile("(<|>>|>)\\[([a-zA-Z]+):(.*?)\\](\\s|,|$)");
+
+		@Override
 	public void validateItemType(Item item, String bindingConfig)
 		throws BindingConfigParseException {}
-
 	@Override
 	public void processBindingConfiguration(String context, Item item, String bindingConfig)
 		throws BindingConfigParseException {
@@ -50,29 +52,54 @@ public abstract class ACDBGenericBindingProvider extends AbstractGenericBindingP
 
 		ACDBBindingConfig config = new ACDBBindingConfig();
 		// analyze configuraton
-		Matcher matcher = BASE_CONFIG_PATTERN.matcher(bindingConfig);
-		if (!matcher.matches()) {
-			throw new BindingConfigParseException("bindingConfig '" + bindingConfig
-				+ "' doesn't contain a valid binding configuration");
-		}
-		matcher.reset();
+		Matcher matcher = BASE_CONFIG_PATTERN_W_COMMAND.matcher(bindingConfig);
+		if(matcher.matches()) {
+			matcher.reset();
+                	while (matcher.find()) {
+                        	String direction = matcher.group(1);
+				logger.debug("### G1:{}", direction);
+                        	String command = matcher.group(2);
+				logger.debug("### G2:{}", command);
+				String sql = matcher.group(3);
+				logger.debug("### G3:{}", sql);
 
-		while (matcher.find()) {
-			String direction = matcher.group(1);
-			String sql = matcher.group(2);
+                        	if (direction.equals("<")) {
+                                	config.selectSql = sql;
+                        	} else if (direction.equals(">")) {
+                                	config.updateSql = sql;
+                        	} else if (direction.equals(">>")) {
+                                	config.insertSql = sql;
+                        	} else {
+                                	throw new BindingConfigParseException(
+                                        	"Unknown command given! Configuration must start with '<' or '>' or '>>' ");
+                        	}
+                	}
+		} else {
+			matcher = BASE_CONFIG_PATTERN.matcher(bindingConfig);
+			if (matcher.matches()) {
+				matcher.reset();
+                        	while (matcher.find()) {
+                                	String direction = matcher.group(1);
+                                	String sql = matcher.group(2);
+					logger.debug("### G1:{}", direction);
+					logger.debug("### G2:{}", sql);
 
-			if (direction.equals("<")) {
-				config.selectSql = sql;
-			} else if (direction.equals(">")) {
-				config.updateSql = sql;
-			} else if (direction.equals(">>")) {
-				config.insertSql = sql;
+                                	if (direction.equals("<")) {
+                                        	config.selectSql = sql;
+                                	} else if (direction.equals(">")) {
+                                        	config.updateSql = sql;
+                                	} else if (direction.equals(">>")) {
+                                        	config.insertSql = sql;
+                                	} else {
+                                        	throw new BindingConfigParseException(
+                                                	"Unknown command given! Configuration must start with '<' or '>' or '>>' ");
+                                	}
+                        	}
 			} else {
-				throw new BindingConfigParseException(
-					"Unknown command given! Configuration must start with '<' or '>' or '>>' ");
+				throw new BindingConfigParseException("bindingConfig '" + bindingConfig
+					+ "' doesn't contain a valid binding configuration");
 			}
 		}
-
 		addBindingConfig(item, config);
 	}
 
