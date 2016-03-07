@@ -161,8 +161,7 @@ public class DBManager {
 	 * @throws Exception
 	 */
 	private static void update(ServerInfo server, String updateSql, HashMap<String, String> sqlParam) throws Exception {
-		Pattern sqlPattern = Pattern.compile("(?:value=.)");
-		//List<String> paramValues = new ArrayList<String>();
+		Pattern sqlPattern = Pattern.compile("(\\?)");
 
 		// analyze SQL statement
 		Matcher matcher = sqlPattern.matcher(updateSql);
@@ -171,8 +170,7 @@ public class DBManager {
 		while (matcher.find()) {
 			String columnName = matcher.group(0);
 			if (StringUtils.isNotEmpty(columnName)) {
-				matcher.appendReplacement(newSql, "value=" + sqlParam.get("value"));
-		//		paramValues.add(sqlParam.get("value"));
+				matcher.appendReplacement(newSql, sqlParam.get("value"));
 			}
 		}
 		matcher.appendTail(newSql);
