@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='org.openhab.binding.ACDBCommon' version='1.8.0.201603070439' singleton='false'>
+    <update id='org.openhab.binding.ACDBCommon' range='[0.0.0,1.8.0.201603070439)' severity='0'/>
+    <properties size='7'>
+      <property name='org.eclipse.equinox.p2.name' value='openHAB ACDBCommon Binding'/>
+      <property name='org.eclipse.equinox.p2.description' value='This is the ACDBCommon binding of the open Home Automation Bus (openHAB)'/>
+      <property name='org.eclipse.equinox.p2.provider' value='openHAB.org'/>
+      <property name='org.eclipse.equinox.p2.doc.url' value='http://www.openhab.org'/>
+      <property name='maven-groupId' value='org.openhab.binding'/>
+      <property name='maven-artifactId' value='org.openhab.binding.ACDBCommon'/>
+      <property name='maven-version' value='1.8.0-SNAPSHOT'/>
+    </properties>
+    <provides size='4'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.openhab.binding.ACDBCommon' version='1.8.0.201603070439'/>
+      <provided namespace='osgi.bundle' name='org.openhab.binding.ACDBCommon' version='1.8.0.201603070439'/>
+      <provided namespace='java.package' name='org.openhab.binding.ACDBCommon' version='0.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+    </provides>
+    <requires size='13'>
+      <required namespace='java.package' name='org.apache.commons.lang' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.core.binding' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.core.events' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.core.items' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.core.library.items' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.core.library.types' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.core.types' range='0.0.0'/>
+      <required namespace='java.package' name='org.openhab.model.item.binding' range='0.0.0'/>
+      <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      <required namespace='java.package' name='org.osgi.service.cm' range='1.4.0'/>
+      <required namespace='java.package' name='org.osgi.service.component' range='0.0.0'/>
+      <required namespace='java.package' name='org.osgi.service.event' range='0.0.0'/>
+      <required namespace='java.package' name='org.slf4j' range='0.0.0'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.openhab.binding.ACDBCommon' version='1.8.0.201603070439'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: org.openhab.binding.ACDBCommon&#xA;Bundle-Version: 1.8.0.201603070439&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>
